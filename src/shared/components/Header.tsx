@@ -5,7 +5,7 @@ import Logo from '../../../public/oritaken_logo.png';
 
 export const createCurrentPageTabStyle = (page: string, currentPage: string) => {
   return `cursor-pointer ${
-    page === currentPage
+    currentPage.match(page) !== null
       ? 'text-white px-2 bg-sky-600 rounded-md'
       : 'text-sky-600 hover:text-sky-300'
   }`;

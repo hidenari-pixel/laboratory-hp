@@ -55,37 +55,37 @@ export const FloatingActionButton = () => {
               </Box>
               <Box
                 onClick={() => router.push('/member')}
-                className={page === '/member' ? selectedMenuStyle : ''}
+                className={page.match('/member') !== null ? selectedMenuStyle : ''}
               >
                 メンバー
               </Box>
               <Box
                 onClick={() => router.push('/research')}
-                className={page === '/research' ? selectedMenuStyle : ''}
+                className={page.match('/research') !== null ? selectedMenuStyle : ''}
               >
                 研究
               </Box>
               <Box
                 onClick={() => router.push('/news')}
-                className={page.match('/news') ? selectedMenuStyle : ''}
+                className={page.match('/news') !== null ? selectedMenuStyle : ''}
               >
                 ニュース
               </Box>
               <Box
                 onClick={() => router.push('/join')}
-                className={page === '/join' ? selectedMenuStyle : ''}
+                className={page.match('/join') !== null ? selectedMenuStyle : ''}
               >
                 研究室配属
               </Box>
               <Box
                 onClick={() => router.push('/contact')}
-                className={page === '/contact' ? selectedMenuStyle : ''}
+                className={page.match('/contact') !== null ? selectedMenuStyle : ''}
               >
                 アクセス
               </Box>
               <Box
                 onClick={() => router.push('/questions')}
-                className={page === '/questions' ? selectedMenuStyle : ''}
+                className={page.match('/questions') !== null ? selectedMenuStyle : ''}
               >
                 よくある質問
               </Box>
