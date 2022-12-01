@@ -14,6 +14,15 @@ import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 
 const selectedMenuStyle = 'h-full w-full rounded-md bg-slate-600 text-white py-1 text-center';
 
+const isCurrentPage = (page: string, which: string) => {
+  if (page === which) {
+    return selectedMenuStyle;
+  } else if (which === '/') {
+    return '';
+  }
+  return page.match(which) !== null ? selectedMenuStyle : '';
+};
+
 export const FloatingActionButton = () => {
   const router = useRouter();
   const page = router.asPath;
@@ -47,45 +56,36 @@ export const FloatingActionButton = () => {
               divider={<StackDivider borderColor="gray.200" />}
               spacing={10}
             >
-              <Box
-                onClick={() => router.push('/')}
-                className={page === '/' ? selectedMenuStyle : ''}
-              >
+              <Box onClick={() => router.push('/')} className={isCurrentPage(page, '/')}>
                 ホーム
               </Box>
               <Box
                 onClick={() => router.push('/member')}
-                className={page.match('/member') !== null ? selectedMenuStyle : ''}
+                className={isCurrentPage(page, '/member')}
               >
                 メンバー
               </Box>
               <Box
                 onClick={() => router.push('/research')}
-                className={page.match('/research') !== null ? selectedMenuStyle : ''}
+                className={isCurrentPage(page, 'research')}
               >
                 研究
               </Box>
-              <Box
-                onClick={() => router.push('/news')}
-                className={page.match('/news') !== null ? selectedMenuStyle : ''}
-              >
+              <Box onClick={() => router.push('/news')} className={isCurrentPage(page, 'news')}>
                 ニュース
               </Box>
-              <Box
-                onClick={() => router.push('/join')}
-                className={page.match('/join') !== null ? selectedMenuStyle : ''}
-              >
+              <Box onClick={() => router.push('/join')} className={isCurrentPage(page, '/join')}>
                 研究室配属
               </Box>
               <Box
                 onClick={() => router.push('/contact')}
-                className={page.match('/contact') !== null ? selectedMenuStyle : ''}
+                className={isCurrentPage(page, 'contact')}
               >
                 アクセス
               </Box>
               <Box
                 onClick={() => router.push('/questions')}
-                className={page.match('/questions') !== null ? selectedMenuStyle : ''}
+                className={isCurrentPage(page, '/questions')}
               >
                 よくある質問
               </Box>

@@ -3,12 +3,16 @@ import { useRouter } from 'next/router';
 
 import Logo from '../../../public/oritaken_logo.png';
 
-export const createCurrentPageTabStyle = (page: string, currentPage: string) => {
-  return `cursor-pointer ${
-    currentPage.match(page) !== null
-      ? 'text-white px-2 bg-sky-600 rounded-md'
-      : 'text-sky-600 hover:text-sky-300'
-  }`;
+const selectedMenuStyle = 'cursor-pointer text-white px-2 bg-sky-600 rounded-md';
+const unSelectedMenuStyle = 'cursor-pointer text-sky-600 hover:text-sky-300';
+
+const isCurrentPage = (page: string, which: string) => {
+  if (page === which) {
+    return selectedMenuStyle;
+  } else if (which === '/') {
+    return unSelectedMenuStyle;
+  }
+  return page.match(which) !== null ? selectedMenuStyle : unSelectedMenuStyle;
 };
 
 export const Header = () => {
@@ -28,43 +32,28 @@ export const Header = () => {
       <div className="w-full border-b"></div>
       <nav className="py-4">
         <ul className="mx-auto flex w-3/4 justify-around">
-          <li onClick={() => router.push('/')} className={createCurrentPageTabStyle('/', page)}>
+          <li onClick={() => router.push('/')} className={isCurrentPage(page, '/')}>
             HOME
           </li>
-          <li
-            onClick={() => router.push('/member')}
-            className={createCurrentPageTabStyle('/member', page)}
-          >
+          <li onClick={() => router.push('/member')} className={isCurrentPage(page, '/member')}>
             MEMBER
           </li>
-          <li
-            onClick={() => router.push('/news')}
-            className={createCurrentPageTabStyle('/news', page)}
-          >
+          <li onClick={() => router.push('/news')} className={isCurrentPage(page, 'news')}>
             NEWS
           </li>
-          <li
-            onClick={() => router.push('/research')}
-            className={createCurrentPageTabStyle('/research', page)}
-          >
+          <li onClick={() => router.push('/research')} className={isCurrentPage(page, 'research')}>
             RESEARCH
           </li>
-          <li
-            onClick={() => router.push('/contact')}
-            className={createCurrentPageTabStyle('/contact', page)}
-          >
+          <li onClick={() => router.push('/contact')} className={isCurrentPage(page, 'contact')}>
             CONTACT
           </li>
           <li
             onClick={() => router.push('/questions')}
-            className={createCurrentPageTabStyle('/questions', page)}
+            className={isCurrentPage(page, '/questions')}
           >
             QUESTIONS
           </li>
-          <li
-            onClick={() => router.push('/join')}
-            className={createCurrentPageTabStyle('/join', page)}
-          >
+          <li onClick={() => router.push('/join')} className={isCurrentPage(page, '/join')}>
             JOIN
           </li>
         </ul>
