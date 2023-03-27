@@ -11,5 +11,6 @@ export const useNewsImage = (itemName: string) => {
   return useQuery({
     queryKey: [`news-image-${itemName}`],
     queryFn: async () => getNewsImage(itemName),
+    staleTime: Infinity,
   });
 };

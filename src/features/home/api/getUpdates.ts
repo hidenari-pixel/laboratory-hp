@@ -6,7 +6,7 @@ import { Update } from '../types/update';
 export const getUpdates = async () => {
   const updates = await getCollection<Update>('updates', {
     limit: 10,
-    orderby: { target: 'date' },
+    orderby: { target: 'date', desc: true },
   });
   return updates;
 };
@@ -15,6 +15,5 @@ export const useUpdates = () => {
   return useQuery({
     queryKey: ['updates'],
     queryFn: async () => getUpdates(),
-    staleTime: Infinity, // フェッチ回数を減らす為
   });
 };
