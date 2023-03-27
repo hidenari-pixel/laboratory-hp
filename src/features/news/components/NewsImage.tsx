@@ -13,11 +13,12 @@ export const NewsImage = ({ imageName, alt }: NewsImageProps) => {
   const src = imageQuery.data;
 
   useEffect(() => {
-    return () => {
+    window.addEventListener('beforeunload', () => {
+      imageQuery.remove();
       if (src) {
         URL.revokeObjectURL(src);
       }
-    };
+    });
   });
 
   if (imageQuery.isLoading || !src) {
@@ -28,5 +29,9 @@ export const NewsImage = ({ imageName, alt }: NewsImageProps) => {
     );
   }
 
-  return <Image src={src} className="aspect-[16/9]" alt={alt} />;
+  return (
+    <div className="aspect-[16/9] bg-gray-400">
+      <Image src={src} className="h-full w-full object-contain" alt={alt} />
+    </div>
+  );
 };

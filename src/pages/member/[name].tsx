@@ -3,9 +3,9 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import { useMembers } from '../../features/member/api/getMembers';
 import { MemberImage } from '../../features/member/components/MemberImage';
 import { MemberResearchCell } from '../../features/member/components/MemberResearchCell';
-import { Member } from '../../features/member/types/member';
 import { Layout } from '../../shared/components/Layout';
 import { Section } from '../../shared/components/Section';
 import { SpLayout } from '../../shared/components/sp/Layout';
@@ -34,11 +34,14 @@ const extractGradeStr = (grade: number) => {
 
 const Profile: NextPage = () => {
   const router = useRouter();
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const queryParam = router.query.profile;
+  const name = router.query.name as string;
+  const membersQuery = useMembers();
+  const profile = membersQuery.data?.find(
+    (m) => m.name_en?.replace(/\s/g, '') === name.replace(/"/g, '').replace(/\s/g, ''),
+  );
 
   // build error 対策
-  if (!queryParam) {
+  if (!name || !profile) {
     return (
       <>
         <Layout>
@@ -55,7 +58,6 @@ const Profile: NextPage = () => {
     );
   }
 
-  const profile = JSON.parse(queryParam as string) as Member;
   const researches = profile.researches.filter((research) => research !== '');
 
   return (
@@ -92,9 +94,30 @@ const Profile: NextPage = () => {
         </React.Fragment>
       </Layout>
       <SpLayout>
-        <SpSection title="紹介">
-          <Box>{profile.name}</Box>
-        </SpSection>
+        <>
+          <div className="h-[9vh]"></div>
+          <SpSection title="プロフィール">
+            <Box>
+              <div>
+                <span className="text-sm">{extractGradeStr(profile.year)}</span>{' '}
+                <span className="text-lg">{profile.name}</span> / <span>{profile.name_en}</span>
+              </div>
+              <div className="my-3">
+                <MemberImage alt={profile.name} imageName={profile.id} />
+              </div>
+              <div>{profile.introduction}</div>
+            </Box>
+          </SpSection>
+          {researches.length > 0 && (
+            <SpSection title="研究">
+              <SimpleGrid spacing={10}>
+                {researches.map((id) => (
+                  <MemberResearchCell key={id} id={id} />
+                ))}
+              </SimpleGrid>
+            </SpSection>
+          )}
+        </>
       </SpLayout>
     </>
   );

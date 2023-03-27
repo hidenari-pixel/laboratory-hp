@@ -36,7 +36,9 @@ const Home: NextPage = () => {
   const newsQuery = useNews(4);
   const updatesQuery = useUpdates();
   const news = newsQuery.data || [];
+  const sortedNews = news.sort((a, b) => b.date.seconds - a.date.seconds);
   const updates = updatesQuery.data || [];
+  const sortedUpdates = updates.sort((a, b) => b.date.seconds - a.date.seconds);
 
   return (
     <>
@@ -59,7 +61,7 @@ const Home: NextPage = () => {
                   <SkeletonText className="w-full"></SkeletonText>
                 </ChakraProvider>
               ) : (
-                updates.map((item) => (
+                sortedUpdates.map((item) => (
                   <Text key={item.title}>
                     <span className="pr-2 text-sm">
                       {format(new Date(item.date.seconds * 1000), 'yyyy-MM-dd')}
@@ -89,7 +91,7 @@ const Home: NextPage = () => {
               <SimpleGrid columns={2} spacing={10}>
                 {newsQuery.isLoading
                   ? null
-                  : news.map((item) => (
+                  : sortedNews.map((item) => (
                       <Box key={item.title}>
                         <Link href={`/news#${item.title}`}>
                           <a>
@@ -188,7 +190,7 @@ const Home: NextPage = () => {
             <VStack spacing={6}>
               {updatesQuery.isLoading
                 ? null
-                : updates.map((item) => (
+                : sortedUpdates.map((item) => (
                     <Text key={item.title}>
                       <span className="pr-1 text-sm">
                         {format(new Date(item.date.seconds * 1000), 'yyyy-MM-dd')}
@@ -216,7 +218,7 @@ const Home: NextPage = () => {
             <React.Fragment>
               {newsQuery.isLoading
                 ? null
-                : news.map((item) => (
+                : sortedNews.map((item) => (
                     <Box key={item.title}>
                       <Link href={`/news#${item.title}`}>
                         <a>

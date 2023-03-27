@@ -16,7 +16,7 @@ const ItemLimitation = 4;
 
 const News: NextPage = () => {
   const newsQuery = useNews();
-  const news = newsQuery.data || [];
+  const news = (newsQuery.data || []).sort((a, b) => b.date.seconds - a.date.seconds);
   const [itemOffset, setItemOffset] = useState<number>(0);
   const endOffset = itemOffset + ItemLimitation;
   const currentNews = news.slice(itemOffset, endOffset);

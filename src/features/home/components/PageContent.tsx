@@ -19,7 +19,7 @@ export const PageContent = ({ img, title, description, path }: PageContentProps)
         onClick={() => router.push(path)}
         className="mx-auto cursor-pointer bg-gray-100 hover:text-orange-400"
       >
-        <Image src={img.src} alt="" className="mx-auto aspect-[16/9]"></Image>
+        <Image src={img.src} alt="" className="mx-auto aspect-[16/9] object-contain"></Image>
         <Text className="px-2 py-5 text-xl">{title}</Text>
         <Text className="px-2 pb-5">{description}</Text>
       </Box>

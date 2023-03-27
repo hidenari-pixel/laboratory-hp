@@ -15,11 +15,12 @@ export const MemberImage = ({ imageName, alt, className = '' }: MemberImageProps
   const src = imageQuery.data;
 
   useEffect(() => {
-    return () => {
+    window.addEventListener('beforeunload', () => {
+      imageQuery.remove();
       if (src) {
         URL.revokeObjectURL(src);
       }
-    };
+    });
   });
 
   if (imageQuery.isLoading || !src) {
@@ -30,5 +31,11 @@ export const MemberImage = ({ imageName, alt, className = '' }: MemberImageProps
     );
   }
 
-  return <Image className={`aspect-[3/4] ${className}`} src={src} alt={alt} />;
+  return (
+    <Image
+      className={`aspect-[3/4] bg-gray-200 object-contain object-center pc:min-w-[200px] ${className}`}
+      src={src}
+      alt={alt}
+    />
+  );
 };
