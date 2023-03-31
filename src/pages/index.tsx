@@ -61,14 +61,14 @@ const Home: NextPage = () => {
                   <SkeletonText className="w-full"></SkeletonText>
                 </ChakraProvider>
               ) : (
-                sortedUpdates.map((item) => (
-                  <Text key={item.title}>
-                    <span className="pr-2 text-sm">
-                      {format(new Date(item.date.seconds * 1000), 'yyyy-MM-dd')}
-                    </span>{' '}
-                    {item.title}
-                  </Text>
-                ))
+                sortedUpdates.map((item) => {
+                  const date = format(new Date(item.date.seconds * 1000), 'yyyy-MM-dd');
+                  return (
+                    <Text key={`${date}-${item.title}`}>
+                      <span className="pr-2 text-sm">{date}</span> {item.title}
+                    </Text>
+                  );
+                })
               )}
             </React.Fragment>
           </Section>
@@ -91,20 +91,23 @@ const Home: NextPage = () => {
               <SimpleGrid columns={2} spacing={10}>
                 {newsQuery.isLoading
                   ? null
-                  : sortedNews.map((item) => (
-                      <Box key={item.title}>
-                        <Link href={`/news#${item.title}`}>
-                          <a>
-                            <NewsContent
-                              id={item.id}
-                              title={item.title}
-                              date={new Date(item.date.seconds * 1000)}
-                              description={`${item.description.slice(0, 80)}...`}
-                            />
-                          </a>
-                        </Link>
-                      </Box>
-                    ))}
+                  : sortedNews.map((item) => {
+                      const formatDate = format(new Date(item.date.seconds * 1000), 'yyyy-MM-dd');
+                      return (
+                        <Box key={`${formatDate}-${item.title}`}>
+                          <Link href={`/news#${item.title}`}>
+                            <a>
+                              <NewsContent
+                                id={item.id}
+                                title={item.title}
+                                date={new Date(item.date.seconds * 1000)}
+                                description={`${item.description.slice(0, 80)}...`}
+                              />
+                            </a>
+                          </Link>
+                        </Box>
+                      );
+                    })}
               </SimpleGrid>
               <Box className="pt-8 text-sm text-gray-500 hover:text-gray-300">
                 <Link href="/news">続きはこちら</Link>
@@ -190,14 +193,14 @@ const Home: NextPage = () => {
             <VStack spacing={6}>
               {updatesQuery.isLoading
                 ? null
-                : sortedUpdates.map((item) => (
-                    <Text key={item.title}>
-                      <span className="pr-1 text-sm">
-                        {format(new Date(item.date.seconds * 1000), 'yyyy-MM-dd')}
-                      </span>{' '}
-                      {item.title}
-                    </Text>
-                  ))}
+                : sortedUpdates.map((item) => {
+                    const date = format(new Date(item.date.seconds * 1000), 'yyyy-MM-dd');
+                    return (
+                      <Text key={`${date}-${item.title}`}>
+                        <span className="pr-1 text-sm">{date}</span> {item.title}
+                      </Text>
+                    );
+                  })}
             </VStack>
           </SpSection>
           {/* 研究室の簡易的な説明 */}
@@ -218,20 +221,23 @@ const Home: NextPage = () => {
             <React.Fragment>
               {newsQuery.isLoading
                 ? null
-                : sortedNews.map((item) => (
-                    <Box key={item.title}>
-                      <Link href={`/news#${item.title}`}>
-                        <a>
-                          <NewsContent
-                            id={item.id}
-                            date={new Date(item.date.seconds * 1000)}
-                            title={item.title}
-                            description={`${item.description.slice(0, 80)}...`}
-                          />
-                        </a>
-                      </Link>
-                    </Box>
-                  ))}
+                : sortedNews.map((item) => {
+                    const formatDate = format(new Date(item.date.seconds * 1000), 'yyyy-MM-dd');
+                    return (
+                      <Box key={`${formatDate}-${item.title}`}>
+                        <Link href={`/news#${item.title}`}>
+                          <a>
+                            <NewsContent
+                              id={item.id}
+                              date={new Date(item.date.seconds * 1000)}
+                              title={item.title}
+                              description={`${item.description.slice(0, 80)}...`}
+                            />
+                          </a>
+                        </Link>
+                      </Box>
+                    );
+                  })}
               <Box className="w-full pt-3 pr-1 text-right text-sm">
                 <Link href="/news">続きはこちら</Link>
               </Box>
