@@ -8,7 +8,7 @@ export const getNews = async (limit?: number) => {
     if (limit) {
       return await getCollection<News>('news', {
         limit,
-        orderby: { target: 'createdat', desc: true },
+        orderby: { target: 'date', desc: true },
       });
     }
     return await getCollection<News>('news');
