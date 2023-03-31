@@ -26,7 +26,7 @@ export const MemberImage = ({ imageName, alt, className = '' }: MemberImageProps
   if (imageQuery.isLoading || !src) {
     return (
       <ChakraProvider>
-        <Skeleton className={`aspect-[3/4] ${className}`} />
+        <Skeleton className={`aspect-[3/4] pc:min-w-[200px] ${className}`} />
       </ChakraProvider>
     );
   }
