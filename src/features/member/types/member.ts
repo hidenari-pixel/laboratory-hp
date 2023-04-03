@@ -5,4 +5,5 @@ export type Member = {
   year: number;
   researches: string[];
   introduction: string;
+  old?: boolean;
 };

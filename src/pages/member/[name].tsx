@@ -29,7 +29,6 @@ const extractGradeStr = (grade: number) => {
     case 2:
       return '学士3年';
   }
-  return '卒業生';
 };
 
 const Profile: NextPage = () => {
@@ -70,7 +69,9 @@ const Profile: NextPage = () => {
               divider={<StackDivider color="gray.200" />}
               alignItems="start"
             >
-              <Text className="text-xl text-gray-500">{extractGradeStr(profile.year)}</Text>
+              <Text className="text-xl text-gray-500">
+                {profile.old ? '' : extractGradeStr(profile.year)}
+              </Text>
               <HStack className="w-full" alignItems="flex-start">
                 <MemberImage alt={profile.name} imageName={profile.id} className="w-[16vw]" />
                 <VStack alignItems="start">
@@ -99,7 +100,7 @@ const Profile: NextPage = () => {
           <SpSection title="プロフィール">
             <Box>
               <div>
-                <span className="text-sm">{extractGradeStr(profile.year)}</span>{' '}
+                <span className="text-sm">{profile.old ? '' : extractGradeStr(profile.year)}</span>{' '}
                 <span className="text-lg">{profile.name}</span> / <span>{profile.name_en}</span>
               </div>
               <div className="my-3">

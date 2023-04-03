@@ -23,6 +23,8 @@ import MapImage from '../../public/lab_map.png';
 import TopImage from '../../public/top_image.jpeg';
 import { useUpdates } from '../features/home/api/getUpdates';
 import { PageContent } from '../features/home/components/PageContent';
+import { useMembers } from '../features/member/api/getMembers';
+import { Member } from '../features/member/types/member';
 import { useNews } from '../features/news/api/getNews';
 import { NewsContent } from '../features/news/components/NewsContent';
 import { Layout } from '../shared/components/Layout';
@@ -32,13 +34,50 @@ import { SpSection } from '../shared/components/sp/Section';
 
 import type { NextPage } from 'next';
 
+// 5 → m2
+// 4 → m1
+// 3 → b4
+// 2 → b3
+const calcExistMemberCount = (members: Member[], grade: number) => {
+  const date = new Date();
+  const thisMonth = date.getMonth() + 1;
+  const thisYear = thisMonth < 4 ? date.getFullYear() - 1 : date.getFullYear();
+  return members.filter((member) => {
+    if (thisYear - member.year === grade && !member.old) {
+      return member;
+    }
+  }).length;
+};
+
 const Home: NextPage = () => {
   const newsQuery = useNews(4);
   const updatesQuery = useUpdates();
+  const membersQuery = useMembers();
+  const members = membersQuery.data || [];
   const news = newsQuery.data || [];
   const sortedNews = news.sort((a, b) => b.date.seconds - a.date.seconds);
   const updates = updatesQuery.data || [];
   const sortedUpdates = updates.sort((a, b) => b.date.seconds - a.date.seconds);
+
+  const MemberCount = ({ grade, count, sp }: { grade: string; count: number; sp?: boolean }) => {
+    if (count === 0) {
+      return null;
+    }
+    if (sp) {
+      return (
+        <HStack className="w-full" justifyContent="space-between">
+          <Text className="text-lg">{grade}</Text>
+          <Text>{count}名</Text>
+        </HStack>
+      );
+    }
+    return (
+      <HStack className="w-full justify-between text-xl">
+        <Text>{grade}</Text>
+        <Text>{count}名</Text>
+      </HStack>
+    );
+  };
 
   return (
     <>
@@ -125,18 +164,10 @@ const Home: NextPage = () => {
                 <Text>秘書</Text>
                 <Text>1名</Text>
               </HStack>
-              <HStack className="w-full justify-between text-xl">
-                <Text>修士1年</Text>
-                <Text>4名</Text>
-              </HStack>
-              <HStack className="w-full justify-between text-xl">
-                <Text>学士4年</Text>
-                <Text>4名</Text>
-              </HStack>
-              <HStack className="w-full justify-between text-xl">
-                <Text>学士3年</Text>
-                <Text>4名</Text>
-              </HStack>
+              <MemberCount grade="修士2年" count={calcExistMemberCount(members, 5)} />
+              <MemberCount grade="修士1年" count={calcExistMemberCount(members, 4)} />
+              <MemberCount grade="学士4年" count={calcExistMemberCount(members, 3)} />
+              <MemberCount grade="学士3年" count={calcExistMemberCount(members, 2)} />
             </VStack>
           </Section>
           <Section title="コンテンツ">
@@ -254,18 +285,10 @@ const Home: NextPage = () => {
                 <Text className="text-lg">秘書</Text>
                 <Text>1名</Text>
               </HStack>
-              <HStack className="w-full" justifyContent="space-between">
-                <Text className="text-lg">修士1年</Text>
-                <Text>4名</Text>
-              </HStack>
-              <HStack className="w-full" justifyContent="space-between">
-                <Text className="text-lg">学士4年</Text>
-                <Text>4名</Text>
-              </HStack>
-              <HStack className="w-full" justifyContent="space-between">
-                <Text className="text-lg">学士3年</Text>
-                <Text>4名</Text>
-              </HStack>
+              <MemberCount grade="修士2年" count={calcExistMemberCount(members, 5)} sp />
+              <MemberCount grade="修士1年" count={calcExistMemberCount(members, 4)} sp />
+              <MemberCount grade="学士4年" count={calcExistMemberCount(members, 3)} sp />
+              <MemberCount grade="学士3年" count={calcExistMemberCount(members, 2)} sp />
             </VStack>
           </SpSection>
           {/* アクセス */}

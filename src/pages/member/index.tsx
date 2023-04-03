@@ -1,4 +1,5 @@
 import { Box, HStack, Image, SimpleGrid, StackDivider, Text, VStack } from '@chakra-ui/react';
+import Link from 'next/link';
 import React from 'react';
 
 import Emori from '../../../public/members/teachers/emori.jpg';
@@ -44,7 +45,7 @@ const createGradeMembers = (members: Member[], grade: number) => {
   const thisMonth = date.getMonth() + 1;
   const thisYear = thisMonth < 4 ? date.getFullYear() - 1 : date.getFullYear();
   return members.filter((member) => {
-    if (thisYear - member.year === grade) {
+    if (thisYear - member.year === grade && !member.old) {
       return member;
     }
   });
@@ -53,9 +54,9 @@ const createGradeMembers = (members: Member[], grade: number) => {
 const Member: NextPage = () => {
   const membersQuery = useMembers();
 
-  const members = membersQuery.data;
+  const members = membersQuery.data || [];
 
-  if (membersQuery.isLoading || !members) {
+  if (membersQuery.isLoading) {
     return <PageLoading />;
   }
 
@@ -118,6 +119,11 @@ const Member: NextPage = () => {
               <GradeRow gradeStr="学士4年" members={b4} />
               {/* 3年 */}
               <GradeRow gradeStr="学士3年" members={b3} />
+              <Link href="/member/olds">
+                <a className="flex w-full justify-start text-blue-500 underline hover:text-blue-400">
+                  OB・OGはこちら
+                </a>
+              </Link>
               {/* 秘書 */}
               <VStack
                 className="mx-auto my-10 w-full"
@@ -178,6 +184,9 @@ const Member: NextPage = () => {
           </SpSection>
           <SpSection title="学生">
             <VStack>
+              {m2.map((member) => (
+                <MemberCell key={member.id} member={member} grade="修士1年" sp={true} />
+              ))}
               {m1.map((member) => (
                 <MemberCell key={member.id} member={member} grade="修士1年" sp={true} />
               ))}
@@ -188,6 +197,13 @@ const Member: NextPage = () => {
                 <MemberCell key={member.id} member={member} grade="学士3年" sp={true} />
               ))}
             </VStack>
+          </SpSection>
+          <SpSection title="OB・OG">
+            <Link href="/member/olds">
+              <a className="flex w-full justify-start text-blue-500 underline hover:text-blue-400">
+                OB・OGはこちら
+              </a>
+            </Link>
           </SpSection>
         </React.Fragment>
       </SpLayout>
