@@ -4,7 +4,7 @@ import { getCollection } from '../../../shared/lib/firebase';
 import { Member } from '../types/member';
 
 export const getMembers = async () => {
-  const members = await getCollection<Member>('users', { orderby: { target: 'name_en' } });
+  const members = await getCollection<Member>('members', { orderby: { target: 'name_en' } });
   return members;
 };
 
