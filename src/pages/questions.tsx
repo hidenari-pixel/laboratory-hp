@@ -106,7 +106,11 @@ const Questions: NextPage = () => {
               alignItems="start"
               divider={<StackDivider color="gray.200" />}
             >
-              <Text className="text-xl">生活</Text>
+              <div className="flex items-end">
+                <span className="text-2xl">生活</span>
+                <span className="mx-2 text-xl">-</span>
+                <span className="text-lg text-gray-500">Life</span>
+              </div>
               <VStack alignItems="start" spacing={10}>
                 {researchFaqs.map((faq) => (
                   <React.Fragment key={faq.ans}>
@@ -121,7 +125,11 @@ const Questions: NextPage = () => {
               alignItems="start"
               divider={<StackDivider color="gray.200" />}
             >
-              <Text className="text-xl">研究</Text>
+              <div className="flex items-end">
+                <span className="text-2xl">研究</span>
+                <span className="mx-2 text-xl">-</span>
+                <span className="text-lg text-gray-500">Research</span>
+              </div>
               <VStack alignItems="start" spacing={10}>
                 {lifeFaqs.map((faq) => (
                   <React.Fragment key={faq.ans}>
@@ -136,7 +144,11 @@ const Questions: NextPage = () => {
               alignItems="start"
               divider={<StackDivider color="gray.200" />}
             >
-              <Text className="text-xl">その他</Text>
+              <div className="flex items-end">
+                <span className="text-2xl">その他</span>
+                <span className="mx-2 text-xl">-</span>
+                <span className="text-lg text-gray-500">Else</span>
+              </div>
               <VStack alignItems="start" spacing={10}>
                 {elseFaqs.map((faq) => (
                   <React.Fragment key={faq.ans}>
