@@ -22,7 +22,8 @@ import ResearchImg from '../../public/home/research.jpg';
 import MapImage from '../../public/lab_map.png';
 import TopImage from '../../public/top_image.jpeg';
 import { useUpdates } from '../features/home/api/getUpdates';
-import { PageContent } from '../features/home/components/PageContent';
+import MemberCount from '../features/home/components/MemberCount';
+import PageCard from '../features/home/components/PageCard';
 import { useMembers } from '../features/member/api/getMembers';
 import { Member } from '../features/member/types/member';
 import { useNews } from '../features/news/api/getNews';
@@ -58,26 +59,6 @@ const Home: NextPage = () => {
   const sortedNews = news.sort((a, b) => b.date.seconds - a.date.seconds);
   const updates = updatesQuery.data || [];
   const sortedUpdates = updates.sort((a, b) => b.date.seconds - a.date.seconds);
-
-  const MemberCount = ({ grade, count, sp }: { grade: string; count: number; sp?: boolean }) => {
-    if (count === 0) {
-      return null;
-    }
-    if (sp) {
-      return (
-        <HStack className="w-full" justifyContent="space-between">
-          <Text className="text-lg">{grade}</Text>
-          <Text>{count}名</Text>
-        </HStack>
-      );
-    }
-    return (
-      <HStack className="w-full justify-between text-xl">
-        <Text>{grade}</Text>
-        <Text>{count}名</Text>
-      </HStack>
-    );
-  };
 
   return (
     <>
@@ -164,51 +145,103 @@ const Home: NextPage = () => {
                 <Text>秘書</Text>
                 <Text>1名</Text>
               </HStack>
-              <MemberCount grade="修士2年" count={calcExistMemberCount(members, 5)} />
-              <MemberCount grade="修士1年" count={calcExistMemberCount(members, 4)} />
-              <MemberCount grade="学士4年" count={calcExistMemberCount(members, 3)} />
-              <MemberCount grade="学士3年" count={calcExistMemberCount(members, 2)} />
+              <MemberCount
+                grade="修士2年"
+                count={calcExistMemberCount(members, 5)}
+                isLoading={membersQuery.isLoading}
+              />
+              <MemberCount
+                grade="修士1年"
+                count={calcExistMemberCount(members, 4)}
+                isLoading={membersQuery.isLoading}
+              />
+              <MemberCount
+                grade="学士4年"
+                count={calcExistMemberCount(members, 3)}
+                isLoading={membersQuery.isLoading}
+              />
+              <MemberCount
+                grade="学士3年"
+                count={calcExistMemberCount(members, 2)}
+                isLoading={membersQuery.isLoading}
+              />
             </VStack>
           </Section>
           <Section title="コンテンツ">
-            <SimpleGrid columns={2} spacing={15}>
-              <PageContent
+            <div className="mx-auto grid grid-cols-2 gap-y-6 gap-x-9">
+              <PageCard
                 img={ResearchImg}
-                title="RESEARCH"
-                description="研究室について紹介しています"
+                title="Research"
+                description={
+                  <>
+                    研究内容の紹介
+                    <br />
+                    脊椎領域を中心にした研究を行っています
+                  </>
+                }
                 path="/research"
               />
-              <PageContent
+              <PageCard
                 img={MemberImg}
-                title="MEMBER"
-                description="研究室のメンバーを紹介します"
+                title="Member"
+                description={
+                  <>
+                    研究室のメンバーを紹介します
+                    <br />
+                    <br />
+                  </>
+                }
                 path="/member"
               />
-              <PageContent
+              <PageCard
                 img={LifeImg}
-                title="NEWS"
-                description="研究室内のイベントを掲載しています"
+                title="News"
+                description={
+                  <>
+                    研究室内のイベントを掲載しています
+                    <br />
+                    <br />
+                  </>
+                }
                 path="/news"
               />
-              <PageContent
+              <PageCard
                 img={TopImage}
-                title="CONTACT"
-                description="研究室について紹介しています"
+                title="Contact"
+                description={
+                  <>
+                    研究室について紹介しています
+                    <br />
+                    <br />
+                  </>
+                }
                 path="/contact"
               />
-              <PageContent
+              <PageCard
                 img={QuestionsImg}
-                title="QUESTIONS"
-                description="よくある質問をまとめています"
+                title="Questions"
+                description={
+                  <>
+                    よくある質問をまとめています
+                    <br />
+                    <br />
+                  </>
+                }
                 path="/questions"
               />
-              <PageContent
+              <PageCard
                 img={JoinImg}
-                title="JOIN"
-                description="研究室配属について紹介します"
+                title="Join"
+                description={
+                  <>
+                    研究室配属について紹介します
+                    <br />
+                    <br />
+                  </>
+                }
                 path="/join"
               />
-            </SimpleGrid>
+            </div>
           </Section>
         </Box>
       </Layout>
