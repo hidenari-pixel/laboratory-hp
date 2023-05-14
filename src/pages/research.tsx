@@ -12,7 +12,7 @@ import { SpSection } from '../shared/components/sp/Section';
 
 import type { NextPage } from 'next';
 
-const ItemLimitation = 4;
+const ItemLimitation = 8;
 
 const Research: NextPage = () => {
   const researchesQuery = useResearches();

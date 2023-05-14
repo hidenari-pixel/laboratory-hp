@@ -78,7 +78,9 @@ const Profile: NextPage = () => {
                   <Text className="p-2 text-lg">
                     {profile.name} / {profile.name_en}
                   </Text>
-                  <Text className="px-3 py-1 text-sm">{profile.introduction}</Text>
+                  <Text className="whitespace-pre-line px-3 py-1 text-sm">
+                    {profile.introduction}
+                  </Text>
                 </VStack>
               </HStack>
             </VStack>
@@ -106,7 +108,7 @@ const Profile: NextPage = () => {
               <div className="my-3">
                 <MemberImage alt={profile.name} imageName={profile.id} />
               </div>
-              <div>{profile.introduction}</div>
+              <div className="whitespace-pre-line">{profile.introduction}</div>
             </Box>
           </SpSection>
           {researches.length > 0 && (

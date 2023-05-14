@@ -16,7 +16,7 @@ export const ResearchCell = ({ id, title, description, links }: Research) => {
         <Heading className="my-1 text-xl text-gray-700 decoration-1 underline-offset-4">
           {title}
         </Heading>
-        <Text className="text-sm text-gray-500">{description}</Text>
+        <Text className="whitespace-pre-line text-sm text-gray-500">{description}</Text>
         {links && links.length > 0 && <Text className="pt-3 text-sm">関連リンク</Text>}
         {links &&
           links.length > 0 &&
