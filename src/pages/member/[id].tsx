@@ -1,11 +1,11 @@
 import { Box, Center, HStack, SimpleGrid, StackDivider, Text, VStack } from '@chakra-ui/react';
-import { NextPage } from 'next';
-import { useRouter } from 'next/router';
+import { GetStaticPropsContext, InferGetStaticPropsType, NextPage } from 'next';
 import React from 'react';
 
-import { useMembers } from '../../features/member/api/getMembers';
+import { getMembers } from '../../features/member/api/getMembers';
 import { MemberImage } from '../../features/member/components/MemberImage';
 import { MemberResearchCell } from '../../features/member/components/MemberResearchCell';
+import { Member } from '../../features/member/types/member';
 import { Layout } from '../../shared/components/Layout';
 import { Section } from '../../shared/components/Section';
 import { SpLayout } from '../../shared/components/sp/Layout';
@@ -31,16 +31,17 @@ const extractGradeStr = (grade: number) => {
   }
 };
 
-const Profile: NextPage = () => {
-  const router = useRouter();
-  const name = router.query.name as string;
-  const membersQuery = useMembers();
-  const profile = membersQuery.data?.find(
-    (m) => m.name_en?.replace(/\s/g, '') === name.replace(/"/g, '').replace(/\s/g, ''),
-  );
+const Profile: NextPage<MemberPageProps> = (props) => {
+  // const router = useRouter();
+  // const name = router.query.name as string;
+  // const membersQuery = useMembers();
+  // const profile = membersQuery.data?.find(
+  //   (m) => m.name_en?.replace(/\s/g, '') === name.replace(/"/g, '').replace(/\s/g, ''),
+  // );
+  const profile = props.member || ({} as Member);
 
   // build error 対策
-  if (!name || !profile) {
+  if (!profile) {
     return (
       <>
         <Layout>
@@ -57,7 +58,7 @@ const Profile: NextPage = () => {
     );
   }
 
-  const researches = profile.researches.filter((research) => research !== '');
+  const researches = profile?.researches.filter((research) => research !== '');
 
   return (
     <>
@@ -127,3 +128,26 @@ const Profile: NextPage = () => {
 };
 
 export default Profile;
+
+type MemberPageProps = InferGetStaticPropsType<typeof getStaticProps>;
+
+export async function getStaticPaths() {
+  const members = await getMembers();
+  const paths = members.map((member) => ({
+    params: { id: member.id },
+  }));
+
+  return { paths, fallback: false };
+}
+
+export const getStaticProps = async (context: GetStaticPropsContext) => {
+  const id = context.params?.id as string;
+  const members = await getMembers();
+  const member = members.find((member) => member.id === id);
+
+  return {
+    props: {
+      member,
+    },
+  };
+};

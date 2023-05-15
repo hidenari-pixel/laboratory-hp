@@ -12,9 +12,10 @@ type MemberCellProps = {
 };
 
 export const MemberCell = ({ member, sp, grade }: MemberCellProps) => {
+  const hrefObj = { pathname: '/member/[id]', query: { id: member.id } };
   if (sp) {
     return (
-      <Link href={{ pathname: '/member/[name]', query: { name: JSON.stringify(member.name_en) } }}>
+      <Link href={hrefObj}>
         <a>
           <HStack>
             <MemberImage
@@ -36,7 +37,7 @@ export const MemberCell = ({ member, sp, grade }: MemberCellProps) => {
   }
 
   return (
-    <Link href={{ pathname: '/member/[name]', query: { name: JSON.stringify(member.name_en) } }}>
+    <Link href={hrefObj}>
       <a>
         <HStack alignItems="flex-start" className="cursor-pointer hover:bg-gray-100">
           <MemberImage className="w-[9vw]" alt={member.name_en} imageName={member.id} />
