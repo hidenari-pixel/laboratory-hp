@@ -66,7 +66,7 @@ const Member: NextPage = () => {
   const m1 = filterEachGradeMembers(members, 4);
   const b4 = filterEachGradeMembers(members, 3);
   const b3 = filterEachGradeMembers(members, 2);
-  // 人外メンバー
+  // ペットメンバー
   const elseMembers = filterElseMembers(members);
 
   return (
@@ -124,7 +124,7 @@ const Member: NextPage = () => {
               {/* 3年 */}
               <GradeRow gradeStr="学士3年" members={b3} />
               {/* その他 */}
-              <GradeRow gradeStr="人外" members={elseMembers} />
+              <GradeRow gradeStr="ペット" members={elseMembers} />
               <Link href="/member/olds">
                 <a className="flex w-full justify-start text-blue-500 underline hover:text-blue-400">
                   OB・OGはこちら
@@ -203,7 +203,7 @@ const Member: NextPage = () => {
                 <MemberCell key={member.id} member={member} grade="学士3年" sp />
               ))}
               {elseMembers.map((member) => (
-                <MemberCell key={member.id} member={member} grade="人外" sp />
+                <MemberCell key={member.id} member={member} grade="ペット" sp />
               ))}
             </VStack>
           </SpSection>

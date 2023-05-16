@@ -17,7 +17,7 @@ import { SpSection } from '../../shared/components/sp/Section';
 // 2 → b3
 const extractGradeStr = (grade: number) => {
   if (grade === 0) {
-    return '人外';
+    return 'ペット';
   }
   const date = new Date();
   const thisMonth = date.getMonth() + 1;
