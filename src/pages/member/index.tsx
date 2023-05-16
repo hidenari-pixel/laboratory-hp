@@ -40,15 +40,17 @@ const GradeRow = ({ members, gradeStr }: { members: Member[]; gradeStr: string }
 // 4 → m1
 // 3 → b4
 // 2 → b3
-const createGradeMembers = (members: Member[], grade: number) => {
+const filterEachGradeMembers = (members: Member[], grade: number) => {
   const date = new Date();
   const thisMonth = date.getMonth() + 1;
   const thisYear = thisMonth < 4 ? date.getFullYear() - 1 : date.getFullYear();
-  return members.filter((member) => {
-    if (thisYear - member.year === grade && !member.old) {
-      return member;
-    }
-  });
+  return members.filter(
+    (member) => member.year !== 0 && thisYear - member.year === grade && !member.old,
+  );
+};
+
+const filterElseMembers = (members: Member[]) => {
+  return members.filter((member) => member.year === 0);
 };
 
 const Member: NextPage = () => {
@@ -60,10 +62,12 @@ const Member: NextPage = () => {
     return <PageLoading />;
   }
 
-  const m2 = createGradeMembers(members, 5);
-  const m1 = createGradeMembers(members, 4);
-  const b4 = createGradeMembers(members, 3);
-  const b3 = createGradeMembers(members, 2);
+  const m2 = filterEachGradeMembers(members, 5);
+  const m1 = filterEachGradeMembers(members, 4);
+  const b4 = filterEachGradeMembers(members, 3);
+  const b3 = filterEachGradeMembers(members, 2);
+  // 人外メンバー
+  const elseMembers = filterElseMembers(members);
 
   return (
     <>
@@ -119,6 +123,8 @@ const Member: NextPage = () => {
               <GradeRow gradeStr="学士4年" members={b4} />
               {/* 3年 */}
               <GradeRow gradeStr="学士3年" members={b3} />
+              {/* その他 */}
+              <GradeRow gradeStr="人外" members={elseMembers} />
               <Link href="/member/olds">
                 <a className="flex w-full justify-start text-blue-500 underline hover:text-blue-400">
                   OB・OGはこちら
@@ -185,16 +191,19 @@ const Member: NextPage = () => {
           <SpSection title="学生">
             <VStack>
               {m2.map((member) => (
-                <MemberCell key={member.id} member={member} grade="修士1年" sp={true} />
+                <MemberCell key={member.id} member={member} grade="修士1年" sp />
               ))}
               {m1.map((member) => (
-                <MemberCell key={member.id} member={member} grade="修士1年" sp={true} />
+                <MemberCell key={member.id} member={member} grade="修士1年" sp />
               ))}
               {b4.map((member) => (
-                <MemberCell key={member.id} member={member} grade="学士4年" sp={true} />
+                <MemberCell key={member.id} member={member} grade="学士4年" sp />
               ))}
               {b3.map((member) => (
-                <MemberCell key={member.id} member={member} grade="学士3年" sp={true} />
+                <MemberCell key={member.id} member={member} grade="学士3年" sp />
+              ))}
+              {elseMembers.map((member) => (
+                <MemberCell key={member.id} member={member} grade="人外" sp />
               ))}
             </VStack>
           </SpSection>

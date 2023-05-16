@@ -16,6 +16,9 @@ import { SpSection } from '../../shared/components/sp/Section';
 // 3 → b4
 // 2 → b3
 const extractGradeStr = (grade: number) => {
+  if (grade === 0) {
+    return '人外';
+  }
   const date = new Date();
   const thisMonth = date.getMonth() + 1;
   const thisYear = thisMonth < 4 ? date.getFullYear() - 1 : date.getFullYear();
