@@ -32,6 +32,7 @@ import { Layout } from '../shared/components/Layout';
 import { Section } from '../shared/components/Section';
 import { SpLayout } from '../shared/components/sp/Layout';
 import { SpSection } from '../shared/components/sp/Section';
+import YoutubeVideo from '../shared/components/YoutubeVideo';
 
 import type { NextPage } from 'next';
 
@@ -73,6 +74,9 @@ const Home: NextPage = () => {
               className="mx-auto aspect-[16/9] w-[60vw]"
             ></Image>
           </Box>
+          <Section title="紹介動画">
+            <YoutubeVideo />
+          </Section>
           {/* 更新情報 */}
           <Section title="更新情報">
             <React.Fragment>
@@ -252,6 +256,10 @@ const Home: NextPage = () => {
           <div className="h-[9vh]"></div>
           {/* トップ画像 */}
           <Image src={TopImage.src} alt=""></Image>
+          {/* Youtube */}
+          <SpSection title="紹介動画">
+            <YoutubeVideo />
+          </SpSection>
           {/* 更新情報類 */}
           <SpSection title="更新情報">
             <VStack spacing={6}>
