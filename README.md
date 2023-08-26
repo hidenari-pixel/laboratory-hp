@@ -1,56 +1,54 @@
-# 研究室 HP
+# Astro Starter Kit: Basics
 
-## 概要
+```
+npm create astro@latest -- --template basics
+```
 
-千葉大学工学部折田研究室の HP を作りました.
+[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
+[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
 
-HP リンク : https://www.cfme.chiba-u.jp/~orita/
+> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
 
-自分が学士で卒業して居なくなってしまうのでコードとかいじらなくても
-運用ができるような作りにしました. CMS は HP と切り離す必要があったため(大学からの圧力)他に作っている研究室のクラウドシステムに組み込めれば良いかなと思っています.
+![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
 
-ソースは今後もう少しまとまりを良くしようかなと考えています.(そんな暇あるか分からないが)
+## 🚀 Project Structure
 
-## **技術**
+Inside of your Astro project, you'll see the following folders and files:
 
-### `言語`
+```
+/
+├── public/
+│   └── favicon.svg
+├── src/
+│   ├── components/
+│   │   └── Card.astro
+│   ├── layouts/
+│   │   └── Layout.astro
+│   └── pages/
+│       └── index.astro
+└── package.json
+```
 
-- Typescript
+Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
 
-### `フレームワーク`
+There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
 
-- Next.js (React)
-- Tailwind
+Any static assets, like images, can be placed in the `public/` directory.
 
-### `ライブラリ`
+## 🧞 Commands
 
-- ChakraUI
-- React Query
-- date-fns
+All commands are run from the root of the project, from a terminal:
 
-### `DB`
+| Command                   | Action                                           |
+| :------------------------ | :----------------------------------------------- |
+| `npm install`             | Installs dependencies                            |
+| `npm run dev`             | Starts local dev server at `localhost:3000`      |
+| `npm run build`           | Build your production site to `./dist/`          |
+| `npm run preview`         | Preview your build locally, before deploying     |
+| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
+| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-- Cloud Firestore for Firebase
-- Cloud Storage for Firebase
+## 👀 Want to learn more?
 
-## **各種技術の選定理由など**
-
-技術の選定理由についてもしっかり考えた(と思う)ので述べていきたいと思います.
-
-まず, `Next.js`を選んだ理由ですが, 単純に React で作りたかったからです. もっと詳細に言うと, Next.js なら React 使えるし複数ページのルーティングも楽と言う理由で選びました.
-
-`Tailwind`については慣れと短くスタイル記述ができる点で採用しました.
-
-ライブラリ系については以下の理由です.
-
-- ChakraUI → 作者的には Material UI の方が使用経験があったが, MUI と Tailwind の相性の悪さを少し感じていたこと, その逆で相性の良さげな ChakraUI に魅力を感じたこと
-- React Query → 自分で全部非同期 fetch, データキャッシュ, etc をやるのがめん d...時間的コストがかかってしまうと判断し採用
-- date-fns → 楽に日付が扱いたい
-
-最後に`Firebase`を採用した理由ですが, 当初は最近ハマっている`Supabase`を採用するつもりでした.
-しかし, Supabase はフリープランだと 1 週間未使用でプロジェクトが停止してしまうらしいのです.
-
-> Free projects are paused after 1 week of inactivity.  
-> 参照 : https://supabase.com/pricing
-
-そのため, 1 週間誰も HP に訪問しないと言う場合が頻発してしまうと, 運用的にかなり良くないのではと思い, 読み取り制限はありつつも停止期限のない(?)Firebase を採用しました.
+Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

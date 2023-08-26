@@ -12,7 +12,7 @@ const YoutubeVideo = () => {
     <YouTube
       className="w-[60vw] sp:w-full"
       iframeClassName="w-full h-full aspect-video"
-      videoId="8tANhdtET5A"
+      videoId="TrdPtAjhkvM"
       opts={opts}
     />
   );
