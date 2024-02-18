@@ -1,9 +1,71 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Card from '@/components/home/Card.astro';
+import CardWithImage from '@/components/home/CardWithImage.astro';
+import ScrollInfinity from '@/components/home/ScrollInfinityEvents.astro';
+import YoutubeVideo from '@/components/home/react/YoutubeVideo';
+import { NAVIGATIONS_WITH_IMAGE } from '@/consts/navigations';
+import Layout from '@/layouts/Layout.astro';
 ---
 
 <Layout title="折田研究室ホーム">
-  <main>
-    <div>研究室</div>
-  </main>
+  <div class="w-full flex flex-col gap-y-4 lg:py-0 py-10">
+    <div
+      class="lg:hidden animate-fade-in-bottom h-screen flex items-center justify-center"
+    >
+      <h2 class="text-3xl font-bold -mt-32">ようこそ折田研究室へ</h2>
+    </div>
+    <div class="w-full flex flex-col gap-y-4">
+      <Card bgColor="light">
+        <div
+          class="flex flex-col justify-center gap-y-4 md:w-5/12 mx-auto"
+          slot="left-content"
+        >
+          <h1 class="md:text-5xl text-3xl font-bold text-gray-900">
+            折田研究室とは
+          </h1>
+          <div class="text-gray-700 flex flex-col gap-y-4">
+            <p>
+              折田研究室では主に脊椎系の研究を行っています。
+              在籍している学生は主に機械学習を用いた研究を行なっていますが,
+              VRの医療への介入,
+              ハプティクス技術に関する研究などにも焦点を当てており,
+              先進技術への感度が高い研究室です。
+            </p>
+            <p>
+              折田純久教授は脊椎領域専門の外科医でありつつ,
+              工学修士の称号も持っている医学と工学のエキスパートです。 そのため,
+              より医療に近い視点を持つことができる数少ない医工学系研究室です。
+            </p>
+            <p>
+              本研究室は医療・工学の2つの視点を持つ折田純久教授を筆頭に,
+              医療業界を支えていくことを目標としています。
+            </p>
+          </div>
+        </div>
+        <img src="/orita_sumihisa.jpg" slot="right-content" />
+      </Card>
+
+      <Card bgColor="dark">
+        <div class="w-full flex items-center flex-col gap-y-8">
+          <h1 class="md:text-5xl text-3xl text-white font-bold">紹介動画</h1>
+          <YoutubeVideo client:only />
+        </div>
+      </Card>
+    </div>
+
+    <ScrollInfinity />
+
+    <div class="w-full grid md:grid-cols-2 gap-x-2 gap-y-4">
+      {
+        NAVIGATIONS_WITH_IMAGE.map(({ title, body, imgPath, path }) => (
+          <CardWithImage
+            title={title}
+            body={body}
+            imgPath={imgPath}
+            href={path}
+          />
+        ))
+      }
+    </div>
+  </div>
 </Layout>

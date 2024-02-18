@@ -1,0 +1,68 @@
+---
+import { BurgerNavigation } from '@/components/shared/react/BurgerNavigation';
+import { NAVIGATIONS } from '@/consts/navigations';
+import { tv } from 'tailwind-variants';
+
+interface Props {
+  isTopPage: boolean;
+}
+
+const { isTopPage } = Astro.props;
+
+const headerStyle = tv({
+  base: 'w-full bg-[#1d1d1f] h-12',
+  variants: {
+    isTopPage: {
+      true: 'fixed top-0 left-0 z-50',
+      false: '',
+    },
+  },
+});
+---
+
+{isTopPage && <div class="pt-12" />}
+<header class={headerStyle({ isTopPage })}>
+  <nav
+    class="h-full md:max-w-[1024px] mx-auto flex justify-around items-center text-sm text-[#F5F5F7]"
+  >
+    <!-- PC -->
+    <ul
+      class="hidden md:flex items-center justify-between w-auto grow md:flex-row flex-col"
+    >
+      <li>
+        <a
+          href="/"
+          class="flex space-x-2 items-center opacity-80 hover:opacity-100 transition duration-500"
+        >
+          <img src="/ori_icon.png" class="h-5" />
+          <span class="font-semibold text-lg">折田研究室</span>
+        </a>
+      </li>
+      {
+        NAVIGATIONS.map(({ label, path }) => (
+          <li>
+            <a
+              href={path}
+              class="opacity-80 hover:opacity-100 transition duration-500"
+            >
+              {label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <!-- SP -->
+    <div class="md:hidden w-full h-full relative flex items-center">
+      <BurgerNavigation client:only />
+      <div class="w-full flex justify-center">
+        <a
+          href="/"
+          class="flex space-x-2 items-center opacity-80 hover:opacity-100 transition duration-500"
+        >
+          <img src="/ori_icon.png" class="h-5" />
+          <span class="font-semibold text-lg">折田研究室</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</header>

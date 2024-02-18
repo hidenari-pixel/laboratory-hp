@@ -1,0 +1,27 @@
+---
+import CompanyItem from '@/components/place-of-employment/EmploymentItem.astro';
+import Layout from '@/layouts/Layout.astro';
+import { getCollection } from '@/lib/firebase';
+import type { EmploymentResponse } from '@/types/employment';
+
+const employmentCollection = await getCollection<EmploymentResponse>(
+  'employments'
+);
+---
+
+<Layout title="卒業生就職先">
+  <div
+    class="lg:max-w-[1440px] w-full mx-auto flex flex-col space-y-10 lg:py-20 py-10 items-center lg:px-48 px-10"
+  >
+    <div class="w-full">
+      <h1 class="text-3xl font-bold mb-10">就職先一覧</h1>
+      <div class="flex flex-col space-y-2">
+        {
+          employmentCollection.map((employment) => (
+            <CompanyItem {...employment} />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</Layout>

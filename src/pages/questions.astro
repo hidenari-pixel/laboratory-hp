@@ -1,9 +1,91 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import QuestionAndAnswer from '@/components/questions/QuestionAndAnswer.astro';
+import QuestionItem from '@/components/questions/QuestionItem.astro';
+import { SecondHeader } from '@/components/shared/react/SecondHeader';
+import Layout from '@/layouts/Layout.astro';
 ---
 
 <Layout title="折田研究室Q&A">
-  <main>
-    <div>研究室</div>
-  </main>
+  <SecondHeader client:only title="Q&A" />
+  <div
+    class="lg:max-w-[1440px] w-full mx-auto flex flex-col space-y-10 lg:py-20 py-10 items-center lg:px-48 px-10"
+  >
+    <div
+      class="w-full flex lg:flex-row flex-col lg:items-start lg:space-x-20 lg:space-y-0 space-y-10"
+    >
+      <div class="flex flex-col gap-y-4 flex-[2]">
+        <h2 class="text-3xl font-bold">Q&A</h2>
+        <span
+          >折田研究室に関するQ&Aをまとめています。このページでは、折田研究室に関する具体的な情報を得られます。</span
+        >
+      </div>
+      <div class="flex flex-col flex-1 gap-y-4">
+        <h3 class="text-xl font-semibold">トピックを選択：</h3>
+        <div class="flex flex-col gap-y-2">
+          <a class="text-blue-500" href="#life">研究室生活について</a>
+          <a class="text-blue-500" href="#research">研究について</a>
+          <a class="text-blue-500" href="#else">その他</a>
+        </div>
+      </div>
+    </div>
+    <QuestionItem id="life" title="研究室生活について">
+      <div class="flex flex-col space-y-5">
+        <QuestionAndAnswer
+          q="研究はどのように行われますか？"
+          a="人によりますが, 基本的には自分で実際に臨床の場に赴いてデータを集めたり, 研究室にあるGPUでデータの処理などをして研究を進めています。"
+        />
+        <div class="w-full border-b"></div>
+        <QuestionAndAnswer
+          q="研究室外で研究を行うことはありますか？"
+          a="はい, あります。 こちらも人によりますが, 共同研究をさせて頂いている先生の在籍する研究室で研究をする人などもいます。"
+        />
+        <div class="w-full border-b"></div>
+        <QuestionAndAnswer
+          q="研究で壁に当たった場合はどうすればいいですか？"
+          a="基本的に, 研究は壁に当たることがほとんどです。壁に当たった場合は絶望するよりも, むしろその状況を楽しみましょう。その過程こそ研究の醍醐味とも言えます。また, 一人で悩まずとも, 先生や先輩方に話を聞くことも研究の一環と言えます。どんどん行動していきましょう。"
+        />
+      </div>
+    </QuestionItem>
+    <QuestionItem id="research" title="研究について">
+      <div class="flex flex-col space-y-5">
+        <QuestionAndAnswer
+          q="コアタイムはありますか？"
+          a="コアタイムはありません。基本的には各々が好きな時間で研究をすることができます。しかし, ミーティングなどの用事がある場合は原則出席しなければなりません。"
+        />
+        <div class="w-full border-b"></div>
+        <QuestionAndAnswer
+          q="研究室内の設備はどうなっていますか？"
+          a="研究室内には, エアコン, 冷蔵庫, 電子レンジ, GPU2台が設置されており, 配属後は一人ずつに机, ディスプレイ, オフィスチェアが貸与されます。また, 必要性が認められれば, 新たな設備投資を検討してもらえることもあります。"
+        />
+        <div class="w-full border-b"></div>
+        <QuestionAndAnswer
+          q="研究室には毎日行かなければなりませんか？"
+          a="折田研究室では自主性を重んじているため, 研究室に来なくとも成果を出せるのであれば必ずしも来なければならない といったことはありません。"
+        />
+      </div>
+    </QuestionItem>
+    <QuestionItem id="else" title="その他">
+      <div class="flex flex-col space-y-5">
+        <QuestionAndAnswer
+          q="折田先生の経歴はすごいのですか？"
+          a="はい, すごいです。初めて聞く人は耳を疑うと思います。調べれば出てくると思いますが, より詳しく知りたい人は研究室見学に来てみて下さい。 実際に折田先生と面談することもできます。"
+        />
+        <div class="w-full border-b"></div>
+        <QuestionAndAnswer
+          q="メンバーは仲がいいですか？"
+          a="はい, 全員が良好な関係性を築いています。先生を交えて, 飲み会なども行います。"
+        />
+        <div class="w-full border-b"></div>
+        <QuestionAndAnswer
+          q="卒業後の進路は？"
+          a="学部卒業後は大学院への進学が一般的ですが、中には就職を選択する人も存在します。"
+        >
+          <a
+            class="text-blue-500 my-2 underline decoration-blue-500"
+            href="/place-of-employment">卒業生の就職先はこちら</a
+          >
+        </QuestionAndAnswer>
+      </div>
+    </QuestionItem>
+  </div>
 </Layout>

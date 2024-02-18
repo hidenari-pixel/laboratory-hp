@@ -1,0 +1,135 @@
+---
+import ResearchItem from '@/components/research/ResearchItem.astro';
+import RoundedImage from '@/components/shared/RoundedImage.astro';
+import Layout from '@/layouts/Layout.astro';
+import { getCollection, getDocument, getImage } from '@/lib/firebase';
+import type { Research } from '@/types/research';
+import { convertGradeNumber } from '@/utils/convertGradeNumber';
+import type { InferGetStaticPropsType } from 'astro';
+
+type MemberDetail = {
+  id: string;
+  year: number;
+  name: string;
+  name_en: string;
+  introduction: string;
+  old: boolean;
+  conferences: string[];
+  researches: string[];
+};
+
+export async function getStaticPaths() {
+  const getResearches = async (researches: string[]) => {
+    const results = await Promise.all(
+      researches.map(async (docId) => {
+        try {
+          const doc = await getDocument<Research>('researches', docId);
+          if (doc === null) return null;
+
+          try {
+            const imageUrl = await getImage('researches', docId);
+            return { ...doc, imageUrl };
+          } catch (e) {
+            return { ...doc, imageUrl: '' };
+          }
+        } catch (e) {
+          return null;
+        }
+      })
+    );
+    return results.filter((item) => item !== null);
+  };
+
+  const memberCollection = await getCollection<MemberDetail>('members', {
+    orderby: { target: 'year' },
+  });
+  const members = await Promise.all(
+    memberCollection.map(async ({ id, year, old, researches, ...rest }) => {
+      const _researches =
+        researches.length === 0 ? [] : await getResearches(researches);
+      try {
+        const imageUrl = await getImage('members', id);
+        return {
+          ...rest,
+          id,
+          grade: convertGradeNumber(year, old),
+          imageUrl,
+          researches: _researches,
+        };
+      } catch (e) {
+        return {
+          ...rest,
+          id,
+          grade: convertGradeNumber(year, old),
+          imageUrl: '',
+          researches: _researches,
+        };
+      }
+    })
+  );
+  return members.map(({ id, ...rest }) => ({
+    params: { id },
+    props: { ...rest },
+  }));
+}
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { name, grade, imageUrl, introduction, conferences, researches } =
+  Astro.props;
+---
+
+<Layout title={`${name}のプロフィール`}>
+  <div
+    class="lg:max-w-[880px] max-w-[320px] w-full mx-auto flex flex-col lg:py-20 py-10 space-y-4"
+  >
+    <div class="w-full flex flex-col space-y-5 justify-center items-center">
+      <div
+        class="relative z-0 group lg:w-[400px] lg:h-[400px] flex items-center justify-center"
+      >
+        <div
+          class="lg:group-hover:w-96 lg:group-hover:h-96 w-80 h-80 transition-all duration-700 rounded-full bg-gray-100 flex items-center justify-center"
+        >
+          <div
+            class="lg:group-hover:w-80 lg:group-hover:h-80 w-72 h-72 transition-all duration-700 rounded-full bg-gray-200 flex items-center justify-center"
+          >
+            <RoundedImage imageUrl={imageUrl} size="xl" />
+            <div
+              class="absolute z-[-1] w-0 h-0 bg-gray-50 lg:group-hover:w-[420px] lg:group-hover:h-[420px] rounded-full transition-all duration-500 flex items-center justify-center"
+            >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex flex-col items-center space-y-10">
+        <div class="flex flex-col">
+          <span class="text-gray-600 text-sm">{grade}</span>
+          <h2 class="text-2xl">{name}</h2>
+        </div>
+        <div class="w-1/2 border-b border-gray-300"></div>
+        <span class="whitespace-pre-line">{introduction}</span>
+        {
+          conferences.length > 0 && (
+            <div class="w-full flex flex-col space-y-1">
+              <h3 class="text-xl font-semibold mb-1">参加学会</h3>
+              {conferences.map((conf) => (
+                <span>{conf}</span>
+              ))}
+            </div>
+          )
+        }
+        {
+          researches.length > 0 && (
+            <div class="w-full flex flex-col space-y-3">
+              <h3 class="text-xl font-semibold mb-1">研究</h3>
+              <div class="grid lg:grid-cols-2 grid-cols-1 gap-y-10">
+                {researches.map((item) => (
+                  <ResearchItem {...item!} />
+                ))}
+              </div>
+            </div>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</Layout>

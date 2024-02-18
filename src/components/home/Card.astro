@@ -1,0 +1,24 @@
+---
+import { tv } from 'tailwind-variants';
+interface Props {
+  bgColor: 'light' | 'dark';
+}
+
+const { bgColor = 'light' } = Astro.props;
+
+const cardWrapper = tv({
+  base: 'rounded-md md:p-8 py-8 px-4 flex justify-between gap-4 flex-col md:flex-row',
+  variants: {
+    bgColor: {
+      light: 'bg-gray-100',
+      dark: 'bg-black',
+    },
+  },
+});
+---
+
+<div class={cardWrapper({ bgColor })}>
+  <slot name="left-content" />
+  <slot />
+  <slot name="right-content" />
+</div>

@@ -1,0 +1,47 @@
+---
+import ResearchItem from '@/components/research/ResearchItem.astro';
+import { SecondHeader } from '@/components/shared/react/SecondHeader';
+import Layout from '@/layouts/Layout.astro';
+import { getCollection, getImage } from '@/lib/firebase';
+import type { Research, ResearchResponse } from '@/types/research';
+import type { GetStaticPaths, Page } from 'astro';
+
+interface Props {
+  page: Page<Research & { imageUrl: string }>;
+}
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const researchCollection = await getCollection<ResearchResponse>(
+    'researches'
+  );
+  const researches = await Promise.all(
+    researchCollection.map(async ({ id, createdAt, ...rest }) => {
+      try {
+        const imageUrl = await getImage('researches', id);
+        return { ...rest, id, imageUrl };
+      } catch (e) {
+        console.log(e);
+        return { ...rest, id, imageUrl: '' };
+      }
+    })
+  );
+  return paginate(researches, { pageSize: 5 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<Layout title="折田研究室各種研究">
+  <SecondHeader
+    client:only
+    title="研究"
+    pageSize={page.lastPage}
+    currentPage={page.currentPage}
+    url={page.url}
+  />
+  <div class="lg:max-w-[1440px] w-full mx-auto flex flex-col items-center">
+    <div class="lg:py-20 py-10 grid lg:grid-cols-2 grid-cols-1 gap-12">
+      {page.data.map((item) => <ResearchItem {...item} />)}
+    </div>
+  </div>
+</Layout>

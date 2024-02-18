@@ -1,0 +1,14 @@
+---
+interface Props {
+  q: string;
+  a: string;
+}
+
+const { q, a } = Astro.props;
+---
+
+<div class="flex flex-col">
+  <span class="font-semibold">Q. {q}</span>
+  <span>A. {a}</span>
+  <slot />
+</div>

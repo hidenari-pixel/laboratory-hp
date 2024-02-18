@@ -1,0 +1,58 @@
+---
+import EventItem from '@/components/events/EventItem.astro';
+import { SecondHeader } from '@/components/shared/react/SecondHeader';
+import Layout from '@/layouts/Layout.astro';
+import { getCollection, getImage } from '@/lib/firebase';
+import type { Event, EventResponse } from '@/types/event';
+import type { GetStaticPaths, Page } from 'astro';
+import { format } from 'date-fns';
+
+interface Props {
+  page: Page<Event>;
+}
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const eventCollection = await getCollection<EventResponse>('news', {
+    orderby: { target: 'date', desc: true },
+  });
+  const events = await Promise.all(
+    eventCollection.map(async ({ id, createdAt, date, ...rest }) => {
+      try {
+        const imageUrl = await getImage('news', id);
+        return {
+          id,
+          imageUrl,
+          date: format(new Date(date.seconds * 1000), 'yyyy-MM-dd'),
+          ...rest,
+        };
+      } catch (e) {
+        console.log(e);
+        return {
+          id,
+          imageUrl: '',
+          date: format(new Date(date.seconds * 1000), 'yyyy-MM-dd'),
+          ...rest,
+        };
+      }
+    })
+  );
+  return paginate(events, { pageSize: 5 });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+---
+
+<Layout title="折田研究室ニュース">
+  <SecondHeader
+    client:only
+    title="イベント"
+    pageSize={page.lastPage}
+    url={page.url}
+    currentPage={page.currentPage}
+  />
+  <div class="lg:max-w-[1440px] w-full mx-auto flex flex-col items-center">
+    <div class="py-10 grid grid-cols-1 gap-12">
+      {page.data.map((item) => <EventItem {...item} />)}
+    </div>
+  </div>
+</Layout>

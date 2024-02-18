@@ -1,15 +1,33 @@
 ---
-import Header from '../components/Header.astro';
+import { TopImage } from '@/components/home/react/TopImage';
+import Footer from '@/components/shared/Footer.astro';
+import Header from '@/components/shared/Header.astro';
+import { ViewTransitions } from 'astro:transitions';
+import { tv } from 'tailwind-variants';
 
 interface Props {
   title: string;
 }
 
 const { title } = Astro.props;
+
+const { pathname } = Astro.url;
+
+const isTopPage = pathname === '/';
+
+const mainStyle = tv({
+  base: 'mx-auto w-full',
+  variants: {
+    isTopPage: {
+      true: 'md:pt-8 md:px-8 px-4 md:max-w-[1440px]',
+      false: '',
+    },
+  },
+});
 ---
 
 <!DOCTYPE html>
-<html lang="en" class="font-apple">
+<html lang="en" class="font-apple scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content="Astro description" />
@@ -17,14 +35,19 @@ const { title } = Astro.props;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <ViewTransitions />
   </head>
-  <body class="h-min-screen">
-    <Header />
-    <slot />
+  <body class="h-min-screen w-screen">
+    <Header isTopPage={isTopPage} />
+    {isTopPage && <TopImage client:only />}
+    <main class={mainStyle({ isTopPage })}>
+      <slot />
+    </main>
+    <Footer />
+    <style is:global>
+      @tailwind base;
+      @tailwind components;
+      @tailwind utilities;
+    </style>
   </body>
 </html>
-<style is:global>
-  @tailwind base;
-  @tailwind components;
-  @tailwind utilities;
-</style>

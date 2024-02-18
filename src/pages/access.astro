@@ -1,0 +1,36 @@
+---
+import AccessItem from '@/components/access/AccessItem.astro';
+import { SecondHeader } from '@/components/shared/react/SecondHeader';
+import Layout from '@/layouts/Layout.astro';
+---
+
+<Layout title="折田研究室アクセス">
+  <SecondHeader client:only title="アクセス" />
+  <div
+    class="lg:max-w-[720px] max-w-[320px] w-full mx-auto flex flex-col lg:py-20 py-10 space-y-4"
+  >
+    <AccessItem title="所在地">
+      <span>〒 263-8522</span>
+      <span
+        >千葉県千葉市稲毛区弥生町1-33 フロンティア医工学センターA棟206号室</span
+      >
+    </AccessItem>
+    <AccessItem title="電話番号">
+      <span>043-251-1111</span>
+    </AccessItem>
+    <AccessItem title="Email">
+      <a
+        class="underline decoration-blue-500 text-blue-500"
+        href="mailto:orita.lab.students@gmail.com"
+        >orita.lab.students@gmail.com</a
+      >
+    </AccessItem>
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1175.34491162773!2d140.10366865050196!3d35.626827804918385!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6022849cb61ee157%3A0xa4377bb5e6dc0c84!2z44CSMjYzLTAwMjIg5Y2D6JGJ55yM5Y2D6JGJ5biC56iy5q-b5Yy65byl55Sf55S677yR4oiS77yT77yT!5e0!3m2!1sja!2sjp!4v1708179812375!5m2!1sja!2sjp"
+      class="lg:w-[720px] w-[320px] lg:aspect-video aspect-square"
+      style="border:0;"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+</Layout>

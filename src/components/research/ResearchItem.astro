@@ -1,0 +1,26 @@
+---
+import type { Research } from '@/types/research';
+type Props = Research & { imageUrl: string };
+
+const { title, description, imageUrl } = Astro.props;
+---
+
+<div class="lg:w-[420px] w-[320px] flex flex-col space-y-2">
+  {
+    imageUrl === '' ? (
+      <div class="flex items-center justify-center text-sm w-full lg:h-[calc(420px_*_9_/_16)] h-[calc(320px_*_9_/_16)] rounded-md bg-gray-300">
+        画像のダウンロードに失敗しました
+      </div>
+    ) : (
+      <div class="w-full flex justify-center items-center lg:h-[calc(420px_*_9_/_16)] h-[calc(320px_*_9_/_16)]">
+        <img
+          class="w-auto h-auto max-w-full max-h-full object-cover rounded-md"
+          src={imageUrl}
+        />
+      </div>
+    )
+  }
+  <h3 class="text-xl text-gray-900">{title}</h3>
+  <div class="border-b my-1"></div>
+  <span class="text-gray-600">{description}</span>
+</div>

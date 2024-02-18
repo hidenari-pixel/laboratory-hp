@@ -1,0 +1,32 @@
+---
+interface Props {
+  events: {
+    id: string;
+    title: string;
+    imageUrl: string;
+    date: string;
+  }[];
+}
+
+const { events } = Astro.props;
+---
+
+<ul class="animate-infinity-scroll-left h-full flex gap-x-2">
+  {
+    events.map(({ title, date, imageUrl }) => (
+      <li class="h-full flex flex-col space-y-1">
+        <div class="lg:w-[calc(100vw_/_4)] w-[200px] overflow-hidden lg:h-[calc(calc(100vw_/_4)_*_9_/_16)]">
+          <img
+            class="w-full h-full object-cover rounded-md"
+            alt={title}
+            src={imageUrl}
+          />
+        </div>
+        <div>
+          <span class="text-xs">{date}</span>
+          <span class="line-clamp-2 text-sm">{title}</span>
+        </div>
+      </li>
+    ))
+  }
+</ul>

@@ -1,0 +1,44 @@
+---
+import { getCollection, getImage } from '@/lib/firebase';
+import type { EventResponse } from '@/types/event';
+import { format } from 'date-fns';
+import ScrollList from './ScrollList.astro';
+const eventCollection = await getCollection<EventResponse>('news', {
+  orderby: { target: 'date', desc: true },
+  limit: 10,
+});
+const events = await Promise.all(
+  eventCollection.map(async ({ id, title, date }) => {
+    try {
+      const imageUrl = await getImage('news', id);
+      return {
+        id,
+        title,
+        date: format(new Date(date.seconds * 1000), 'yyyy-MM-dd'),
+        imageUrl,
+      };
+    } catch (e) {
+      console.log(e);
+      return {
+        id,
+        title,
+        date: format(new Date(date.seconds * 1000), 'yyyy-MM-dd'),
+        imageUrl: '',
+      };
+    }
+  })
+);
+---
+
+<div class="flex flex-col gap-y-4 my-10">
+  <div class="w-full flex items-center justify-center gap-x-4">
+    <h1 class="text-center text-5xl font-bold">イベント</h1>
+    <a
+      class="text-sm whitespace-nowrap border border-gray-600 rounded-full py-2 px-3"
+      href="/events/1">さらに詳しく</a
+    >
+  </div>
+  <div class="overflow-hidden flex gap-x-2 h-full">
+    {[1, 2].map(() => <ScrollList events={events} />)}
+  </div>
+</div>

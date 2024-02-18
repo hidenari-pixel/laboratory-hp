@@ -1,0 +1,45 @@
+---
+import MemberItem from '@/components/member/MemberItem.astro';
+import { SecondHeader } from '@/components/shared/react/SecondHeader';
+import Layout from '@/layouts/Layout.astro';
+import { getCollection, getImage } from '@/lib/firebase';
+import { convertGradeNumber } from '@/utils/convertGradeNumber';
+
+const memberCollection = await getCollection<{
+  id: string;
+  name: string;
+  year: number;
+  old: boolean;
+}>('members', { orderby: { target: 'year' } });
+const members = await Promise.all(
+  memberCollection.map(async ({ id, year, old, ...rest }) => {
+    try {
+      const imageUrl = await getImage('members', id);
+      return {
+        ...rest,
+        id,
+        grade: old ? '卒業生' : convertGradeNumber(year),
+        imageUrl,
+      };
+    } catch (e) {
+      return {
+        ...rest,
+        id,
+        grade: old ? '卒業生' : convertGradeNumber(year),
+        imageUrl: '',
+      };
+    }
+  })
+);
+---
+
+<Layout title="折田研究室メンバー">
+  <SecondHeader client:only title="メンバー" />
+  <div
+    class="lg:max-w-[1440px] w-full mx-auto flex flex-col items-center lg:py-20 py-10"
+  >
+    <div class="grid lg:grid-cols-2 grid-cols-1 gap-12">
+      {members.map((member) => <MemberItem {...member} />)}
+    </div>
+  </div>
+</Layout>
