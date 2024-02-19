@@ -15,7 +15,7 @@ const { events } = Astro.props;
   {
     events.map(({ title, date, imageUrl }) => (
       <li class="h-full flex flex-col space-y-1">
-        <div class="lg:w-[calc(100vw_/_4)] w-[200px] overflow-hidden lg:h-[calc(calc(100vw_/_4)_*_9_/_16)]">
+        <div class="lg:w-[calc(100vw_/_4)] w-[200px] overflow-hidden lg:h-[calc(calc(100vw_/_4)_*_9_/_16)] h-[calc(200px_*_9_/_16)]">
           <img
             class="w-full h-full object-cover rounded-md"
             alt={title}
