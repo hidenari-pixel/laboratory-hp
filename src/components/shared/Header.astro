@@ -1,6 +1,8 @@
 ---
 import { BurgerNavigation } from '@/components/shared/react/BurgerNavigation';
+import { ORI_ICON_IMG } from '@/consts/imagePaths';
 import { NAVIGATIONS } from '@/consts/navigations';
+import { HOME_PATH } from '@/consts/paths';
 import { tv } from 'tailwind-variants';
 
 interface Props {
@@ -31,10 +33,10 @@ const headerStyle = tv({
     >
       <li>
         <a
-          href="/"
+          href={HOME_PATH}
           class="flex space-x-2 items-center opacity-80 hover:opacity-100 transition duration-500"
         >
-          <img src="/ori_icon.png" class="h-5" />
+          <img src={ORI_ICON_IMG} class="h-5" />
           <span class="font-semibold text-lg">折田研究室</span>
         </a>
       </li>
@@ -53,13 +55,13 @@ const headerStyle = tv({
     </ul>
     <!-- SP -->
     <div class="md:hidden w-full h-full relative flex items-center">
-      <BurgerNavigation client:only />
+      <BurgerNavigation client:only navigations={NAVIGATIONS} />
       <div class="w-full flex justify-center">
         <a
-          href="/"
+          href={HOME_PATH}
           class="flex space-x-2 items-center opacity-80 hover:opacity-100 transition duration-500"
         >
-          <img src="/ori_icon.png" class="h-5" />
+          <img src={ORI_ICON_IMG} class="h-5" />
           <span class="font-semibold text-lg">折田研究室</span>
         </a>
       </div>

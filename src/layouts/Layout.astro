@@ -1,7 +1,7 @@
 ---
-import { TopImage } from '@/components/home/react/TopImage';
 import Footer from '@/components/shared/Footer.astro';
 import Header from '@/components/shared/Header.astro';
+import { FAVICON } from '@/consts/imagePaths';
 import { ViewTransitions } from 'astro:transitions';
 import { tv } from 'tailwind-variants';
 
@@ -13,7 +13,7 @@ const { title } = Astro.props;
 
 const { pathname } = Astro.url;
 
-const isTopPage = pathname === '/';
+const isTopPage = pathname === import.meta.env.BASE_PATH;
 
 const mainStyle = tv({
   base: 'mx-auto w-full',
@@ -30,16 +30,16 @@ const mainStyle = tv({
 <html lang="en" class="font-apple scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Astro description" />
+    <meta name="description" content="折田研究室HP" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href={FAVICON} />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <ViewTransitions />
   </head>
   <body class="h-min-screen w-screen">
     <Header isTopPage={isTopPage} />
-    {isTopPage && <TopImage client:only />}
+    <slot name="topImage" />
     <main class={mainStyle({ isTopPage })}>
       <slot />
     </main>

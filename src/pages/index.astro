@@ -2,12 +2,15 @@
 import Card from '@/components/home/Card.astro';
 import CardWithImage from '@/components/home/CardWithImage.astro';
 import ScrollInfinity from '@/components/home/ScrollInfinityEvents.astro';
+import TopImage from '@/components/home/TopImage.astro';
 import YoutubeVideo from '@/components/home/react/YoutubeVideo';
+import { ORITA_SUMIHISA_IMG } from '@/consts/imagePaths';
 import { NAVIGATIONS_WITH_IMAGE } from '@/consts/navigations';
 import Layout from '@/layouts/Layout.astro';
 ---
 
 <Layout title="折田研究室ホーム">
+  <TopImage slot="topImage" />
   <div class="w-full flex flex-col gap-y-4 lg:py-0 py-10">
     <div
       class="lg:hidden animate-fade-in-bottom h-screen flex items-center justify-center"
@@ -42,7 +45,7 @@ import Layout from '@/layouts/Layout.astro';
             </p>
           </div>
         </div>
-        <img src="/orita_sumihisa.jpg" slot="right-content" />
+        <img src={ORITA_SUMIHISA_IMG} slot="right-content" />
       </Card>
 
       <Card bgColor="dark">

@@ -2,6 +2,7 @@
 import QuestionAndAnswer from '@/components/questions/QuestionAndAnswer.astro';
 import QuestionItem from '@/components/questions/QuestionItem.astro';
 import { SecondHeader } from '@/components/shared/react/SecondHeader';
+import { PLACE_OF_EMPLOYMENT_PATH } from '@/consts/paths';
 import Layout from '@/layouts/Layout.astro';
 ---
 
@@ -82,7 +83,7 @@ import Layout from '@/layouts/Layout.astro';
         >
           <a
             class="text-blue-500 my-2 underline decoration-blue-500"
-            href="/place-of-employment">卒業生の就職先はこちら</a
+            href={PLACE_OF_EMPLOYMENT_PATH}>卒業生の就職先はこちら</a
           >
         </QuestionAndAnswer>
       </div>

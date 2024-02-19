@@ -4,6 +4,7 @@ import { SecondHeader } from '@/components/shared/react/SecondHeader';
 import Layout from '@/layouts/Layout.astro';
 import { getCollection, getImage } from '@/lib/firebase';
 import type { Research, ResearchResponse } from '@/types/research';
+import { getAbsoluteUrls } from '@/utils/getAbsolutePath';
 import type { GetStaticPaths, Page } from 'astro';
 
 interface Props {
@@ -29,15 +30,16 @@ export const getStaticPaths = (async ({ paginate }) => {
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
+const { lastPage, currentPage, url } = page;
 ---
 
 <Layout title="折田研究室各種研究">
   <SecondHeader
     client:only
     title="研究"
-    pageSize={page.lastPage}
-    currentPage={page.currentPage}
-    url={page.url}
+    pageSize={lastPage}
+    currentPage={currentPage}
+    url={getAbsoluteUrls(url)}
   />
   <div class="lg:max-w-[1440px] w-full mx-auto flex flex-col items-center">
     <div class="lg:py-20 py-10 grid lg:grid-cols-2 grid-cols-1 gap-12">

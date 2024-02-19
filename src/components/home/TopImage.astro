@@ -1,0 +1,24 @@
+---
+import { RESEARCH_IMG } from '@/consts/imagePaths';
+import { tv } from 'tailwind-variants';
+
+const imageWrapperStyle = tv({
+  base: 'w-full bg-black overflow-hidden relative min-h-screen lg:block hidden',
+});
+
+const imageStyle = tv({
+  base: 'max-w-full w-full transition-all duration-[3000ms] scale-100 h-screen min-h-screen scale-125 opacity-20',
+});
+---
+
+<div class={imageWrapperStyle()}>
+  <div
+    class="px-32 w-full absolute top-1/2 left-1/2 z-10"
+    style={{ transform: 'translate(-50%, -50%)' }}
+  >
+    <div class="w-full flex animate-fade-in-bottom">
+      <h1 class="text-white font-bold text-5xl">ようこそ折田研究室へ</h1>
+    </div>
+  </div>
+  <img alt="" class={imageStyle()} src={RESEARCH_IMG} />
+</div>

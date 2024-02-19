@@ -1,4 +1,3 @@
-import { NAVIGATIONS } from "@/consts/navigations";
 import { useState } from "react";
 import { tv } from "tailwind-variants";
 
@@ -43,7 +42,11 @@ const navigationItemStyle = tv({
 	},
 });
 
-export const BurgerNavigation = () => {
+type Props = {
+	navigations: { label: string; path: string }[];
+};
+
+export const BurgerNavigation = ({ navigations }: Props) => {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -57,12 +60,12 @@ export const BurgerNavigation = () => {
 				<span className={lineStyle({ under: true, openUnder: open })} />
 			</button>
 			<ul className={navigationStyle({ visible: open })}>
-				{NAVIGATIONS.map(({ label, path }, i) => (
+				{navigations.map(({ label, path }, i) => (
 					<li
 						key={path}
 						className={navigationItemStyle({
 							visible: open,
-							last: i === NAVIGATIONS.length - 1,
+							last: i === navigations.length - 1,
 						})}
 					>
 						<a href={path}>{label}</a>
