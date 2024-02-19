@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { tv } from "tailwind-variants";
 
 const imageWrapperStyle = tv({
-	base: "w-full bg-black overflow-hidden relative min-h-screen",
+	base: "w-full bg-black overflow-hidden relative min-h-screen lg:block hidden",
 });
 
 const imageStyle = tv({
-	base: "max-w-full w-full transition-all duration-[3000ms] scale-100 lg:block hidden h-screen min-h-screen",
+	base: "max-w-full w-full transition-all duration-[3000ms] scale-100 h-screen min-h-screen",
 	variants: {
 		isRendered: {
 			true: "scale-125 opacity-20",
