@@ -5,7 +5,7 @@ export const convertGradeNumber = (grade: number, old?: boolean) => {
 
 	const currentMonth = new Date().getMonth() + 1;
 	const currentYear =
-		currentMonth < 4 ? new Date().getFullYear() : new Date().getFullYear() - 1;
+		currentMonth < 4 ? new Date().getFullYear() - 1 : new Date().getFullYear();
 	const diff = currentYear - grade;
 	switch (diff) {
 		case 6:
