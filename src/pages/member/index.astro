@@ -12,25 +12,30 @@ const memberCollection = await getCollection<{
   old: boolean;
 }>('members', { orderby: { target: 'year' } });
 const members = await Promise.all(
-  memberCollection.map(async ({ id, year, old, ...rest }) => {
+  memberCollection.map(async ({ id, year, ...rest }) => {
     try {
       const imageUrl = await getImage('members', id);
       return {
         ...rest,
         id,
-        grade: old ? '卒業生' : convertGradeNumber(year),
+        grade: convertGradeNumber(year, !!rest?.old),
         imageUrl,
+        old: !!rest?.old,
       };
     } catch (e) {
       return {
         ...rest,
         id,
-        grade: old ? '卒業生' : convertGradeNumber(year),
+        grade: convertGradeNumber(year, !!rest?.old),
         imageUrl: '',
+        old: !!rest?.old,
       };
     }
   })
 );
+
+const currentMembers = members.filter(({ old }) => !old);
+const oldMembers = members.filter(({ old }) => old);
 ---
 
 <Layout title="折田研究室メンバー">
@@ -39,7 +44,34 @@ const members = await Promise.all(
     class="lg:max-w-[1440px] w-full mx-auto flex flex-col items-center lg:py-20 py-10"
   >
     <div class="grid lg:grid-cols-2 grid-cols-1 gap-12">
-      {members.map((member) => <MemberItem {...member} />)}
+      <h2 class="pr-10 lg:w-[420px] w-[320px] text-2xl font-bold text-gray-600">
+        在校生
+      </h2>
+      {
+        currentMembers.length % 2 ? (
+          ''
+        ) : (
+          <span class="lg:block hidden pr-10 lg:w-[420px] w-[320px]" />
+        )
+      }
+      {currentMembers.map((member) => <MemberItem {...member} />)}
+    </div>
+  </div>
+  <div
+    class="lg:max-w-[1440px] w-full mx-auto flex flex-col items-center lg:py-20 py-10"
+  >
+    <div class="grid lg:grid-cols-2 grid-cols-1 gap-12">
+      <h2 class="pr-10 lg:w-[420px] w-[320px] text-2xl font-bold text-gray-600">
+        卒業生
+      </h2>
+      {
+        oldMembers.length % 2 ? (
+          ''
+        ) : (
+          <span class="lg:block hidden pr-10 lg:w-[420px] w-[320px]" />
+        )
+      }
+      {oldMembers.map((member) => <MemberItem {...member} />)}
     </div>
   </div>
 </Layout>
